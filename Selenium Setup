@@ -1,0 +1,41 @@
+#!/bin/bash
+
+echo "\r\nUpdating system ...\r\n"
+sudo apt-get update
+sudo apt-get install default-jre
+sudo apt-get install default-jdk
+sudo apt-get install oracle-java9-installer
+
+# Create folder to place selenium in
+#
+echo "\r\nCreating folder to place selenium in ...\r\n"
+sudo mkdir ~/selenium
+cd ~/selenium
+
+
+# Get Selenium and install headless Java runtime
+#
+echo "\r\nInstalling Selenium and headless Java runtime ...\r\n"
+sudo wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
+sudo apt-get install openjdk-9-jre-headless -y
+
+
+# Install Firefox
+#
+echo "\r\nInstalling Firefox ...\r\n"
+sudo apt-get install firefox -y
+
+
+# Install headless GUI for firefox.  'Xvfb is a display server that performs graphical operations in memory'
+#
+echo "\r\nInstalling XVFB (headless GUI for Firefox) ...\r\n"
+sudo apt-get install xvfb -y
+
+# Look here for different OS (https://chromedriver.storage.googleapis.com/index.html?path=2.29/)
+sudo wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+
+# Finally, starting up Selenium server
+#
+echo "\r\nStarting up Selenium server ...\r\n"
+DISPLAY=:1 xvfb-run java -jar ~/selenium/selenium-server-standalone-2.44.0.jar
